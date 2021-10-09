@@ -1,17 +1,12 @@
 
 let pageUrl = window.location.href;
+let splitUrl = pageUrl.split('=');
+let newUrl = splitUrl[1];
 
-let splitUrl = pageUrl.split('=')
-
-let newUrl = splitUrl[1]
-
-console.log(newUrl);
 
 fetch(`http://localhost:3000/api/products/${newUrl}`)
     .then(res => res.json())
     .then(data => {
-
-        console.log(typeof data.price);
 
         // Insertion de l'image du produit
         const divImg = document.querySelector('.item__img');
@@ -26,12 +21,13 @@ fetch(`http://localhost:3000/api/products/${newUrl}`)
 
         // Insertion du prix du produit
         const elementPrice = document.querySelector('#price');
-        let price = data.price / 100;
-        elementPrice.innerText = price;
+        elementPrice.innerText = data.price;
+
 
         // Insertion de la description du produit
         const elementDescription = document.querySelector('#description');
         elementDescription.innerText = `${data.description}`;
+
 
         // Insertion des couleurs du produit
         const elementColors = document.querySelector('#colors');
@@ -42,44 +38,51 @@ fetch(`http://localhost:3000/api/products/${newUrl}`)
             elementColors.appendChild(elementOption);
         }
 
-        console.log(elementColors);
 
+        // Stockage des informations du produit dans le local storage
         const inputQuantity = document.querySelector('#quantity');
         const addButton = document.querySelector('#addToCart');
         
-
-        addButton.addEventListener('click', () => {
-            // constructor(imgProduct, nameProduct, priceProduct, quantityProduct){
-            //     this.
-            // }
-
-            let addToCartProduct = {
-                imgProduct: data.imageUrl,
-                nameProduct: data.name,
-                priceProduct: price,
-                quantityProduct: inputQuantity.value
+        class CartProduct {
+            constructor (idProduct, colorProduct, quantityProduct) {
+                this.idProduct = idProduct;
+                this.colorProduct = colorProduct
+                this.quantityProduct = quantityProduct;
             }
 
-            localStorage.setItem('productInCart', JSON.stringify(addToCartProduct))
+        }
 
-            console.log(addToCartProduct);
-        })
         
+        let addToCartProduct = [];
 
-        // for (i = 0; i < data.length; i++) {
-        //     let kanap = data[i];
-        //     let item = document.createElement('div');
-        //     // let image = document.createElement = (`<img src="${kanap.imageUrl}" alt="${kanap.altTxt}" width=150px height=150px>`);
-        //     item.innerHTML= `
-        //         <a href="./product.html?id=${kanap._id}">
-        //             <article>
-        //             <img src="${kanap.imageUrl}" alt="${kanap.altTxt}">
-        //             <h3 class="productName">${kanap.name}</h3>
-        //             <p class="productDescription">${kanap.description}</p>
-        //             </article>
-        //         </a>
-        //     `;
-        //     items.appendChild(item);
-        //     console.log(kanap.name);
-        // }
+        addButton.addEventListener('click', () => {
+
+            if (!elementColors.value) {
+                console.log('couleur non défini');
+            } else {
+                let productInLocalStorage = JSON.parse(localStorage.getItem('productInCart'));
+                addToCartProduct.push(new CartProduct(newUrl, elementColors.value, inputQuantity.value));
+
+                if (productInLocalStorage == null) {
+                    productInLocalStorage = addToCartProduct;
+                } else {
+                    for (element in productInLocalStorage) {
+                        if (productInLocalStorage[element].idProduct === newUrl && productInLocalStorage[element].colorProduct === elementColors.value ){
+                            productInLocalStorage[element].quantityProduct = parseInt(productInLocalStorage[element].quantityProduct) + parseInt(addToCartProduct[0].quantityProduct, 10);
+                            break;
+                        } else if(element != productInLocalStorage.length - 1) {
+                            continue;
+                        } else {
+                            productInLocalStorage.push(addToCartProduct[0])
+                        }
+                        
+                    }
+                }
+
+                addToCartProduct = [];
+
+                localStorage.setItem('productInCart', JSON.stringify(productInLocalStorage))
+            }
+            
+        })
     })
