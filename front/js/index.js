@@ -16,7 +16,6 @@ function productDisplay(data) {
             </a>
         `;
         items.appendChild(item);
-        console.log(kanap.name);
     }
 }
 
