@@ -7,16 +7,7 @@ init()
 
 
 async function getProducts() {
-    return fetch("http://localhost:3000/api/products")
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    return Utils.get("http://localhost:3000/api/products");
 }
 
 function coverPage(products){

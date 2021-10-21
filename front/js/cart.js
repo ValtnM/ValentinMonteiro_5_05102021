@@ -4,10 +4,14 @@ const totalPrice = document.getElementById('totalPrice');
 
 
 
+
+
 async function init(){
+    showTotal()
     await refreshQuantity();
     deleteProduct();
 }
+
 
 
 
@@ -43,6 +47,7 @@ async function refreshQuantity(){
     await showProducts();
     const inputQuantity = document.querySelectorAll('.itemQuantity');
     const productsInLocalStorage = getProductsInLocalStorage();
+    
     
     for(i = 0; i < inputQuantity.length; i++){
         inputQuantity[i].addEventListener('change', (e) => {
@@ -107,8 +112,9 @@ async function showProducts(){
 // Affichage des totaux
 
 async function showTotal(){
-    const totalProductsQuantity = getTotalProductsQuantity();
+    const totalProductsQuantity = await getTotalProductsQuantity();
     const totalProductsPrice = await getTotalProductsPrice();
+    console.log(totalProductsPrice);
     totalQuantity.innerText = totalProductsQuantity;
     totalPrice.innerText = totalProductsPrice;
 }
@@ -118,8 +124,8 @@ async function showTotal(){
 
 // Calcul du nombre total d'article dans le panier
 
-function getTotalProductsQuantity(){
-    const productsQuantities = getProductsQuantities();
+async function getTotalProductsQuantity(){
+    const productsQuantities = await getProductsQuantities();
     let totalProductsQuantity = 0;
     for(i = 0; i < productsQuantities.length; i++){
         totalProductsQuantity += parseInt(productsQuantities[i]);
@@ -133,7 +139,7 @@ function getTotalProductsQuantity(){
 // Calcul du prix total du panier
 
 async function getTotalProductsPrice(){
-    const productsQuantities = getProductsQuantities();
+    const productsQuantities = await getProductsQuantities();
     const productsElements = await getProductElements();
     let totalProductsPrice = 0;
     for(i = 0; i < productsElements.length; i++){
@@ -216,15 +222,7 @@ function getProductsInLocalStorage(){
 // Récupération des données via l'API
 
 async function getProductsInAPI(id){
-    return fetch(`http://localhost:3000/api/products/${id}`)
-        .then(res => {
-            if(res.ok){
-                return res.json();
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    return Utils.get(`http://localhost:3000/api/products/${id}`)
 }
 
 
