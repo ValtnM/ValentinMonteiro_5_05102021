@@ -1,6 +1,5 @@
 async function init() {
     const products = await getProducts();
-    console.log(products);
     coverPage(products);
 }
 init()

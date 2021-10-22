@@ -58,7 +58,6 @@ function redirectionToConfirmation(orderNumber){
 async function getOrderId(content){
     const response = await sendDataToAPI(content)
     let orderId = response.orderId;
-    console.log(typeof orderId);
     return orderId;
 }
 

@@ -33,7 +33,6 @@ function setItemToLocalStorage() {
     button.addEventListener('click', () => {
         const productsInLocalStorage = getItemToLocalStorage();
         const newProduct = new Produits(getProductId(), getProductQuantity(), getProductColor());
-        console.log(productsInLocalStorage);
         if(colors.value == 0){
             alert('Veuillez choisir une couleur.');
         } else if (quantity.value == 0) {

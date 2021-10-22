@@ -4,12 +4,10 @@ const totalPrice = document.getElementById('totalPrice');
 
 
 
-
-
 async function init(){
-    showTotal()
-    await refreshQuantity();
-    deleteProduct();
+    await showProducts();
+    refreshQuantity()
+    deleteProduct()
 }
 
 
@@ -17,11 +15,11 @@ async function init(){
 
 // Suppression de produit du panier
 
-async function deleteProduct(){
-    const productsInLocalStorage = getProductsInLocalStorage();
+function deleteProduct(){
     const deleteProduct = document.querySelectorAll('.deleteItem');
     for(i = 0; i < deleteProduct.length; i++){
         deleteProduct[i].addEventListener('click', (e) => {
+            const productsInLocalStorage = getProductsInLocalStorage();
             const parentElement = e.target.closest('article');
             const productId = parentElement.dataset.id;
             const productColor = parentElement.querySelector('.itemColor').innerText;
@@ -36,6 +34,7 @@ async function deleteProduct(){
             showTotal()
         })
     }
+    showTotal()
 }
 
 
@@ -43,14 +42,12 @@ async function deleteProduct(){
 
 // Modification de la quantité des produits
 
-async function refreshQuantity(){
-    await showProducts();
+function refreshQuantity(){
     const inputQuantity = document.querySelectorAll('.itemQuantity');
-    const productsInLocalStorage = getProductsInLocalStorage();
-    
     
     for(i = 0; i < inputQuantity.length; i++){
         inputQuantity[i].addEventListener('change', (e) => {
+            const productsInLocalStorage = getProductsInLocalStorage();
             const parentElement = (e.path[4]);
             const productId = parentElement.dataset.id;
             const productColor = parentElement.querySelector('.itemColor').innerText;
@@ -103,7 +100,7 @@ async function showProducts(){
             </article>
         `
     }
-    
+    showTotal()
 }
 
 
@@ -112,9 +109,8 @@ async function showProducts(){
 // Affichage des totaux
 
 async function showTotal(){
-    const totalProductsQuantity = await getTotalProductsQuantity();
+    const totalProductsQuantity = getTotalProductsQuantity();
     const totalProductsPrice = await getTotalProductsPrice();
-    console.log(totalProductsPrice);
     totalQuantity.innerText = totalProductsQuantity;
     totalPrice.innerText = totalProductsPrice;
 }
@@ -124,8 +120,8 @@ async function showTotal(){
 
 // Calcul du nombre total d'article dans le panier
 
-async function getTotalProductsQuantity(){
-    const productsQuantities = await getProductsQuantities();
+function getTotalProductsQuantity(){
+    const productsQuantities = getProductsQuantities();
     let totalProductsQuantity = 0;
     for(i = 0; i < productsQuantities.length; i++){
         totalProductsQuantity += parseInt(productsQuantities[i]);
@@ -139,13 +135,14 @@ async function getTotalProductsQuantity(){
 // Calcul du prix total du panier
 
 async function getTotalProductsPrice(){
-    const productsQuantities = await getProductsQuantities();
+    const productsQuantities = getProductsQuantities();
     const productsElements = await getProductElements();
     let totalProductsPrice = 0;
     for(i = 0; i < productsElements.length; i++){
         totalProductsPrice += productsQuantities[i] * productsElements[i].price;
         
     }
+    // Retourne une promesse avec le prix total du panier
     return totalProductsPrice;
 }
 
@@ -160,6 +157,7 @@ function getProductsColors() {
     for(i = 0; i < products.length; i++){
         productsColors.push(products[i].color);
     }
+    // Retourne un tableau avec la couleur de chaque produit du local storage.
     return productsColors;
 }
 
@@ -174,6 +172,7 @@ function getProductsQuantities() {
     for(i = 0; i < products.length; i++){
         productsQuantities.push(products[i].quantity);
     }
+    // Retourne un tableau avec la quantité de chaque produit du local storage
     return productsQuantities;
 }
 
@@ -185,12 +184,13 @@ function getProductsQuantities() {
 async function getProductElements(){
     const products = getProductsInLocalStorage()
     const productsId = getProductsId(products);
+    
     const productsElements = [];
     for(i = 0; i < products.length; i++){
         const productElements = await getProductsInAPI(productsId[i]);
         productsElements.push(productElements);
     }
-
+    // Retourne une promesse d'un tableau avec les informations des produits du local storage
     return productsElements
 }
 
@@ -204,6 +204,7 @@ function getProductsId(products){
     for(i = 0; i < products.length; i++){
         productsId.push(products[i].id);
     }
+    // Retourne un tableau avec les IDs des produits du tableau passé en paramètre
     return productsId;
 }
 
@@ -213,6 +214,7 @@ function getProductsId(products){
 // Récupération des données du local storage
 
 function getProductsInLocalStorage(){
+    // Retourne une tableau avec les éléments du local storage
     return JSON.parse(localStorage.getItem('productInCart'));
 }
 
@@ -221,7 +223,8 @@ function getProductsInLocalStorage(){
 
 // Récupération des données via l'API
 
-async function getProductsInAPI(id){
+function getProductsInAPI(id){
+    // Retourne une promesse avec le produits de l'API
     return Utils.get(`http://localhost:3000/api/products/${id}`)
 }
 
