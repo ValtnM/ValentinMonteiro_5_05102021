@@ -1,21 +1,23 @@
-async function init() {
+async function showApiProducts() {
     const products = await getProducts();
-    coverPage(products);
-}
-init()
-
-
-async function getProducts() {
-    return Utils.get("http://localhost:3000/api/products");
+    showProducts(products);
 }
 
-function coverPage(products){
+
+
+// Affichage de tous les produits de l'API
+
+function showProducts(products){
     products.forEach(product => {
-        showKanap(product);
+        addProductElement(product);
     });
 }
 
-function showKanap(product){
+
+
+// Affichage sur la page du produit en paramètre
+
+function addProductElement(product){
     const items = document.getElementById('items');
     items.innerHTML += `
         <a href="./product.html?id=${product._id}">
@@ -27,3 +29,14 @@ function showKanap(product){
         </a>
     `
 }
+
+
+
+// Récuparation des produits sur l'API
+
+async function getProducts() {
+    return Utils.get("http://localhost:3000/api/products");
+}
+
+
+showApiProducts();

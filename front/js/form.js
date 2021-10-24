@@ -76,7 +76,7 @@ async function sendDataToAPI(content){
 // Regroupement des informations a envoyer à l'API
 
 function regroupOrderData(){
-    const orderArray = getProductsId();
+    const orderArray = getProductsInLocalStorageId();
     const order = {
         contact: formValues,
         products: orderArray
@@ -89,7 +89,7 @@ function regroupOrderData(){
 
 // Récupération des IDs des produits du local storage
 
-function getProductsId(){
+function getProductsInLocalStorageId(){
     const productsArray = getProductsInLocalStorage();
     const productsIdArray = [];
     for(i = 0; i < productsArray.length; i++){

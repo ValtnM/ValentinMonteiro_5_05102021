@@ -122,7 +122,7 @@ async function getProductElement(){
 // Récupération de l'URL de la page
 
 function getProductId() {
-    return Utils.getId();
+    return Utils.getId('id');
 }
 
 

@@ -14,7 +14,7 @@ function displayOrderId() {
 // Récupération du numéro de commande dans l'URL
 
 function getOrderId() {
-    return Utils.getId();
+    return Utils.getId('orderId');
 }
 
 

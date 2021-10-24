@@ -1,6 +1,5 @@
 class Utils {
 
-
     // Récupération des données de l'API
 
     static async get(url) {
@@ -48,9 +47,9 @@ class Utils {
 
     // Récupération de l'ID dans l'URL
 
-    static getId(){
-        const pageUrl = window.location.href.split('=');
-        const productId = pageUrl[1];
+    static getId(param){
+        const pageUrl = new URLSearchParams(window.location.search);
+        const productId = pageUrl.get(param);
         return productId;
     }
 }
