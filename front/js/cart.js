@@ -6,15 +6,14 @@ const totalPrice = document.getElementById('totalPrice');
 
 async function init(){
     await showProducts();
-    refreshQuantity()
-    deleteProduct()
+    refreshQuantity();
+    deleteProduct();
 }
 
 
 
 
 // Suppression de produit du panier
-
 function deleteProduct(){
     const deleteProduct = document.querySelectorAll('.deleteItem');
     for(i = 0; i < deleteProduct.length; i++){
@@ -41,7 +40,6 @@ function deleteProduct(){
 
 
 // Modification de la quantité des produits
-
 function refreshQuantity(){
     const inputQuantity = document.querySelectorAll('.itemQuantity');
     
@@ -69,7 +67,6 @@ function refreshQuantity(){
 
 
 // Affichage des différents articles du panier
-
 async function showProducts(){
     
     const productsElements = await getProductElements();
@@ -107,7 +104,6 @@ async function showProducts(){
 
 
 // Affichage des totaux
-
 async function showTotal(){
     const totalProductsQuantity = getTotalProductsQuantity();
     const totalProductsPrice = await getTotalProductsPrice();
@@ -119,7 +115,6 @@ async function showTotal(){
 
 
 // Calcul du nombre total d'article dans le panier
-
 function getTotalProductsQuantity(){
     const productsQuantities = getProductsQuantities();
     let totalProductsQuantity = 0;
@@ -133,7 +128,6 @@ function getTotalProductsQuantity(){
 
 
 // Calcul du prix total du panier
-
 async function getTotalProductsPrice(){
     const productsQuantities = getProductsQuantities();
     const productsElements = await getProductElements();
@@ -150,7 +144,6 @@ async function getTotalProductsPrice(){
 
 
 // Création d'un tableau avec les couleurs des produits du local storage
-
 function getProductsColors() {
     const products = getProductsInLocalStorage();
     const productsColors = [];
@@ -165,7 +158,6 @@ function getProductsColors() {
 
 
 // Création d'un tableau avec les quantités des produits du local storage
-
 function getProductsQuantities() {
     const products = getProductsInLocalStorage();
     const productsQuantities = [];
@@ -180,7 +172,6 @@ function getProductsQuantities() {
 
 
 // Récupération via l'API des informations des produits du local storage
-
 async function getProductElements(){
     const products = getProductsInLocalStorage()
     const productsId = getProductsId(products);
@@ -198,7 +189,6 @@ async function getProductElements(){
 
 
 // Création d'un tableau contenant les IDs des produits du local storage
-
 function getProductsId(products){
     const productsId = [];
     for(i = 0; i < products.length; i++){
@@ -212,7 +202,6 @@ function getProductsId(products){
 
 
 // Récupération des données du local storage
-
 function getProductsInLocalStorage(){
     // Retourne une tableau avec les éléments du local storage
     return JSON.parse(localStorage.getItem('productInCart'));
@@ -222,7 +211,6 @@ function getProductsInLocalStorage(){
 
 
 // Récupération des données via l'API
-
 function getProductsInAPI(id){
     // Retourne une promesse avec le produits de l'API
     return Utils.get(`http://localhost:3000/api/products/${id}`)

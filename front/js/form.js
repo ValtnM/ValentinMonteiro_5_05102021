@@ -10,7 +10,13 @@ const lastNameError = document.getElementById('lastNameErrorMsg');
 const addressError = document.getElementById('addressErrorMsg');
 const cityError = document.getElementById('cityErrorMsg');
 const emailError = document.getElementById('emailErrorMsg');
-let formValues = { };
+let formValues = {
+    firstName : "",
+    lastName: "",
+    address: "",
+    city: "",
+    email: ""
+ };
 
 const regexTxt = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
 const regexAddress = /^([0-9]{1,})[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{3,}$/;
@@ -31,13 +37,18 @@ function init() {
 
 
 // Validation de la commande
-
 function orderValidation(){
     orderBtn.addEventListener('click', async (e) => {
         e.preventDefault();
-        const order = regroupOrderData();
-        const orderNumber =  await getOrderId(order)
-        redirectionToConfirmation(orderNumber);
+        checkForm()
+        
+        if(!checkForm()){
+            alert("L'envoi de la commande a échoué. Veuillez remplir le formulaire.")
+        } else {
+            const order = regroupOrderData();
+            const orderNumber =  await getOrderId(order)
+            redirectionToConfirmation(orderNumber);
+        }
     })
 }
 
@@ -45,7 +56,6 @@ function orderValidation(){
 
 
 // Redirection vers la page de confirmation
-
 function redirectionToConfirmation(orderNumber){
     document.location.href=`./confirmation.html?orderId=${orderNumber}`;
 }
@@ -54,7 +64,6 @@ function redirectionToConfirmation(orderNumber){
 
 
 // Récupération du numéro de commande
-
 async function getOrderId(content){
     const response = await sendDataToAPI(content)
     let orderId = response.orderId;
@@ -65,7 +74,6 @@ async function getOrderId(content){
 
 
 // Envoie des données à l'API
-
 async function sendDataToAPI(content){
     return Utils.post(content);
 }
@@ -74,7 +82,6 @@ async function sendDataToAPI(content){
 
 
 // Regroupement des informations a envoyer à l'API
-
 function regroupOrderData(){
     const orderArray = getProductsInLocalStorageId();
     const order = {
@@ -88,7 +95,6 @@ function regroupOrderData(){
 
 
 // Récupération des IDs des produits du local storage
-
 function getProductsInLocalStorageId(){
     const productsArray = getProductsInLocalStorage();
     const productsIdArray = [];
@@ -100,14 +106,39 @@ function getProductsInLocalStorageId(){
 
 
 
+// Vértfication des données du formulaire
+function checkForm(){
+    let i = 0;
+    const formKeys = Object.keys(formValues);
+
+    for(let element in formValues){
+        i++;
+        const errorMsg = element + 'ErrorMsg';
+        const errorMsgElement = document.getElementById(errorMsg);
+        if (formValues[element] == 0){
+            errorMsgElement.innerText = "Veuillez remplir le champ avec les bonnes informations."
+            return false;
+        }
+         else if (formKeys.length == i) {
+            return true;
+        } else {
+            continue;
+        }
+    }
+}
+
+
+
 
 // Récupération des données saisies dans le formulaire
-
 function getFirstName(){
     firstName.addEventListener('change',(e) => {
         if(testDataField(firstName, regexTxt, e.target.value)){
             formValues["firstName"] = e.target.value;
+        } else {
+            formValues["firstName"] = 0;
         }
+        checkForm()
     })
     
 }
@@ -115,8 +146,11 @@ function getFirstName(){
 function getLastName(){
     lastName.addEventListener('change',(e) => {
         if(testDataField(lastName, regexTxt, e.target.value)){
-            formValues["lastName"] = e.target.value;            
+            formValues["lastName"] = e.target.value;
+        } else {
+            formValues["lastName"] = 0;
         }
+        checkForm()
     })
     
 }
@@ -125,7 +159,10 @@ function getAddress(){
     address.addEventListener('change',(e) => {
         if(testDataField(address, regexAddress, e.target.value)){
             formValues["address"] = e.target.value;
+        } else {
+            formValues["address"] = 0;
         }
+        checkForm()
     })
     
 }
@@ -134,16 +171,21 @@ function getCity(){
     city.addEventListener('change',(e) => {
         if(testDataField(city, regexTxt, e.target.value)){
             formValues["city"] = e.target.value;
+        } else {
+            formValues["city"] = 0;
         }
+        checkForm()
     })
-    
 }
 
 function getEmail(){
     email.addEventListener('change',(e) => {
         if(testDataField(email, regexEmail, e.target.value)){
             formValues["email"] = e.target.value;
+        } else {
+            formValues["email"] = 0;
         }
+        checkForm()
     })
     
 }
@@ -152,7 +194,6 @@ function getEmail(){
 
 
 // Test des données saisies
-
 function testDataField(field, regex, value){
     const errorMsg = field.id + 'ErrorMsg';
     const errorMsgElement = document.getElementById(errorMsg);
@@ -160,7 +201,6 @@ function testDataField(field, regex, value){
         errorMsgElement.innerText = ``;
         return true;
     } else {
-        errorMsgElement.innerText = `Le champ n'a pas été rempli correctement`;
         return false;
     }
 }

@@ -28,7 +28,6 @@ function init() {
 
 
 // Envoi des produits dans le local storage
-
 function setItemToLocalStorage() {
     button.addEventListener('click', () => {
         const productsInLocalStorage = getItemToLocalStorage();
@@ -68,7 +67,6 @@ function setItemToLocalStorage() {
 
 
 // Récupération des données du local storage
-
 function getItemToLocalStorage(){
     return JSON.parse(localStorage.getItem('productInCart'));
 }
@@ -77,7 +75,6 @@ function getItemToLocalStorage(){
 
 
 // Récupération de la quantité et de la couleur séléctionnés par l'utilisateur
-
 function getProductQuantity(){
     return parseInt(quantity.value);
 }
@@ -90,7 +87,6 @@ function getProductColor(){
 
 
 // Affichage des information sur le produit
-
 async function showProductElement(){
     const productElements = await getProductElement();
     itemImg.innerHTML = `<img src="${productElements.imageUrl}" alt="${productElements.altTxt}">`
@@ -110,7 +106,6 @@ function showProductColors(product){
 
 
 // Récupération des données du produit via l'API
-
 async function getProductElement(){
     const productId = getProductId();
     return Utils.get(`http://localhost:3000/api/products/${productId}`)
@@ -120,7 +115,6 @@ async function getProductElement(){
 
 
 // Récupération de l'URL de la page
-
 function getProductId() {
     return Utils.getId('id');
 }

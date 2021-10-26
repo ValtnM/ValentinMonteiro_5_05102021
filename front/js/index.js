@@ -6,7 +6,6 @@ async function showApiProducts() {
 
 
 // Affichage de tous les produits de l'API
-
 function showProducts(products){
     products.forEach(product => {
         addProductElement(product);
@@ -16,7 +15,6 @@ function showProducts(products){
 
 
 // Affichage sur la page du produit en paramètre
-
 function addProductElement(product){
     const items = document.getElementById('items');
     items.innerHTML += `
@@ -33,7 +31,6 @@ function addProductElement(product){
 
 
 // Récuparation des produits sur l'API
-
 async function getProducts() {
     return Utils.get("http://localhost:3000/api/products");
 }
