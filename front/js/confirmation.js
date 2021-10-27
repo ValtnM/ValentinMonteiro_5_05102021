@@ -1,6 +1,11 @@
 const orderIdElement = document.getElementById('orderId');
 
 
+// Vider le panier
+function cleanCart(){
+    localStorage.removeItem('productInCart');
+}
+
 
 // Affichage du numéro de commande
 function displayOrderId() {
@@ -16,4 +21,5 @@ function getOrderId() {
 }
 
 
-displayOrderId()
+displayOrderId();
+cleanCart();

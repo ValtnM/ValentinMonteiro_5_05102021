@@ -41,8 +41,9 @@ function orderValidation(){
     orderBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         checkForm()
-        
-        if(!checkForm()){
+        if(!getProductsInLocalStorage()){
+            alert('Le panier est vide.');
+        } else if(!checkForm()){
             alert("L'envoi de la commande a échoué. Veuillez remplir le formulaire.")
         } else {
             const order = regroupOrderData();
