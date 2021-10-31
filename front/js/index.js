@@ -30,7 +30,7 @@ function addProductElement(product){
 
 
 
-// Récuparation des produits sur l'API
+// Récupération des produits sur l'API
 async function getProducts() {
     return Utils.get("http://localhost:3000/api/products");
 }

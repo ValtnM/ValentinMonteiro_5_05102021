@@ -136,7 +136,6 @@ async function getTotalProductsPrice(){
         totalProductsPrice += productsQuantities[i] * productsElements[i].price;
         
     }
-    // Retourne une promesse avec le prix total du panier
     return totalProductsPrice;
 }
 
@@ -150,7 +149,6 @@ function getProductsColors() {
     for(i = 0; i < products.length; i++){
         productsColors.push(products[i].color);
     }
-    // Retourne un tableau avec la couleur de chaque produit du local storage.
     return productsColors;
 }
 
@@ -164,7 +162,6 @@ function getProductsQuantities() {
     for(i = 0; i < products.length; i++){
         productsQuantities.push(products[i].quantity);
     }
-    // Retourne un tableau avec la quantité de chaque produit du local storage
     return productsQuantities;
 }
 
@@ -181,7 +178,6 @@ async function getProductElements(){
         const productElements = await getProductsInAPI(productsId[i]);
         productsElements.push(productElements);
     }
-    // Retourne une promesse d'un tableau avec les informations des produits du local storage
     return productsElements
 }
 
@@ -194,7 +190,6 @@ function getProductsId(products){
     for(i = 0; i < products.length; i++){
         productsId.push(products[i].id);
     }
-    // Retourne un tableau avec les IDs des produits du tableau passé en paramètre
     return productsId;
 }
 
@@ -203,7 +198,6 @@ function getProductsId(products){
 
 // Récupération des données du local storage
 function getProductsInLocalStorage(){
-    // Retourne une tableau avec les éléments du local storage
     return JSON.parse(localStorage.getItem('productInCart'));
 }
 
@@ -212,7 +206,6 @@ function getProductsInLocalStorage(){
 
 // Récupération des données via l'API
 function getProductsInAPI(id){
-    // Retourne une promesse avec le produits de l'API
     return Utils.get(`http://localhost:3000/api/products/${id}`)
 }
 

@@ -140,8 +140,7 @@ function getFirstName(){
             formValues["firstName"] = 0;
         }
         checkForm()
-    })
-    
+    })    
 }
 
 function getLastName(){
@@ -152,8 +151,7 @@ function getLastName(){
             formValues["lastName"] = 0;
         }
         checkForm()
-    })
-    
+    })    
 }
 
 function getAddress(){
@@ -164,8 +162,7 @@ function getAddress(){
             formValues["address"] = 0;
         }
         checkForm()
-    })
-    
+    })    
 }
 
 function getCity(){
@@ -187,8 +184,7 @@ function getEmail(){
             formValues["email"] = 0;
         }
         checkForm()
-    })
-    
+    })    
 }
 
 
