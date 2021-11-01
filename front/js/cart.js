@@ -46,7 +46,7 @@ function refreshQuantity(){
     for(i = 0; i < inputQuantity.length; i++){
         inputQuantity[i].addEventListener('change', (e) => {
             const productsInLocalStorage = getProductsInLocalStorage();
-            const parentElement = (e.path[4]);
+            const parentElement = (e.target.parentElement.parentElement.parentElement.parentElement);
             const productId = parentElement.dataset.id;
             const productColor = parentElement.querySelector('.itemColor').innerText;
 
