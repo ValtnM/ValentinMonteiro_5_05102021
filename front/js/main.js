@@ -9,10 +9,12 @@ class Utils {
                 return data
             } else {
                 console.log(`Réponse du serveur : ${response.status}`);
+                alert("Echec lors de la récupération des données");
             }
         }
         catch(e) {
             console.error(e);
+            alert("Echec lors de la récupération des données");
         }
     }
 
@@ -34,10 +36,12 @@ class Utils {
                 return data;
             } else {
                 console.log(`Réponse du serveur : ${response.status}`);
+                alert("Echec lors de l'envoi des données");
             }
         }
         catch(e) {
             console.error(e);
+            alert("Echec lors de l'envoi des données");
         }
     }
 
